@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  
+  quiz:
+    container_name: quiz
+    build:
+      context: .
+    ports:
+      - "8001:8001"
+    entrypoint: ./wsgi-entrypoint.sh
+    restart: always
+    volumes:
+      - ./media/:/media/
+      - ./static/:/static/
+    depends_on:
+      - db
+
+
+  db:
+    container_name: databasee
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+    restart: always
+
+
+  nginx:
+    container_name: first_nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./media/:/media/
+      - ./static/:/static/
+    depends_on:
+     - quiz
+
+volumes:
+  static:
+  media:
+  postgres_data:
+

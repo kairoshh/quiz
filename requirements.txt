@@ -1,0 +1,9 @@
+django==3.2.7
+djangorestframework
+django-cors-headers
+pillow
+django-environ
+drf_yasg
+djangorestframework-simplejwt
+gunicorn==20.1.0
+psycopg2-binary
